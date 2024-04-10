@@ -26,6 +26,8 @@ class ImageFlipper(Node):
         self.bridge = CvBridge()
 
     def listener_callback_leftcam(self, msg):
+        
+        
         cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
         
         # Flip the image by 180 degrees
@@ -33,6 +35,7 @@ class ImageFlipper(Node):
 
         # Convert OpenCV image back to ROS2 image message
         flipped_image_msg = self.bridge.cv2_to_imgmsg(flipped_image, "bgr8")
+        flipped_image_msg.header = msg.header 
 
         # Publish the flipped image
         self.publisher_leftcam.publish(flipped_image_msg)
@@ -46,6 +49,8 @@ class ImageFlipper(Node):
 
         # Convert OpenCV image back to ROS2 image message
         flipped_image_msg = self.bridge.cv2_to_imgmsg(flipped_image, "bgr8")
+
+        flipped_image_msg.header = msg.header 
 
         # Publish the flipped image
         self.publisher_rightcam.publish(flipped_image_msg)
